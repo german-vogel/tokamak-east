@@ -186,8 +186,8 @@ with tab1:
     # Emisividad
     fig.add_trace(go.Scatter(x=RHO, y=eps_arr, name=f"ε_{species}",
                              line=dict(color=IMP_COLOR, width=3),
-                             fill="tozeroy", fillcolor="rgba(24,95,165,0.15)",
-                             row=1, col=2))
+                             fill="tozeroy", fillcolor="rgba(24,95,165,0.15)"),
+                             row=1, col=2)
 
     # D y v normalizados
     D_n = D_prof / D_prof.max()
