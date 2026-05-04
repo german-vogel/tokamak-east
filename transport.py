@@ -44,7 +44,7 @@ def solve_transport(rho, D_prof, v_prof, n_edge=1.0):
     vD = v_prof / np.maximum(D_prof, 1e-6)
     n = np.zeros_like(rho)
     for i in range(len(rho)):
-        integral = np.trapz(vD[i:], rho[i:])          # ∫_ρ^1 v/D dρ'
+        integral = np.trapezoid(vD[i:], rho[i:])      # ∫_ρ^1 v/D dρ'  (np.trapz eliminado en NumPy 2.0)
         n[i] = n_edge * np.exp(np.clip(-integral, -50, 50))  # clip evita overflow numérico
     return n
 
