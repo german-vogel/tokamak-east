@@ -8,6 +8,12 @@ con condición de regularidad en r=0 → D dn/dr = v·n → n(ρ) = n_edge·exp(
 """
 
 import numpy as np
+
+# Compatibilidad NumPy 1.x (trapz) y 2.x (trapezoid)
+try:
+    _trapz = np.trapezoid
+except AttributeError:
+    _trapz = np.trapz
 from scipy.interpolate import interp1d
 
 RHO = np.linspace(0.0, 1.0, 300)
@@ -44,7 +50,7 @@ def solve_transport(rho, D_prof, v_prof, n_edge=1.0):
     vD = v_prof / np.maximum(D_prof, 1e-6)
     n = np.zeros_like(rho)
     for i in range(len(rho)):
-        integral = np.trapezoid(vD[i:], rho[i:])      # ∫_ρ^1 v/D dρ'  (np.trapezoid eliminado en NumPy 2.0)
+        integral = _trapz(vD[i:], rho[i:])
         n[i] = n_edge * np.exp(np.clip(-integral, -50, 50))  # clip evita overflow numérico
     return n
 
