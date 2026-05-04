@@ -8,7 +8,7 @@ incluyendo ionización y recombinación (datos ADAS). Requiere `pip install auro
 import numpy as np
 
 try:
-    import aurora
+    import aurora  # package: aurorafusion (pip install aurorafusion)
     AURORA_AVAILABLE = True
 except ImportError:
     AURORA_AVAILABLE = False
