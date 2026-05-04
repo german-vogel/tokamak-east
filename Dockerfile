@@ -1,21 +1,20 @@
-FROM python:3.11-slim
+FROM continuumio/miniconda3:latest
 
 WORKDIR /app
 
-# Dependencias del sistema (Aurora puede necesitar compiladores)
-RUN apt-get update && apt-get install -y \
-    gcc g++ make git curl \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalar todo via conda-forge (binarios precompilados, sin compilar C/Fortran)
+RUN conda install -y -c conda-forge \
+    aurorafusion \
+    streamlit \
+    plotly \
+    scipy \
+    numpy \
+    && conda clean -afy
 
 COPY . .
 
-# Puerto de Railway
 EXPOSE 8501
 
-# Variables de entorno para Streamlit
 ENV STREAMLIT_SERVER_HEADLESS=true \
     STREAMLIT_SERVER_ENABLE_CORS=false \
     STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
